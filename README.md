@@ -64,27 +64,34 @@ as the local model behind Pi, while deliberately triggering long identical-reaso
 | `/newram`      | New session + LM Studio unload + optional compaction injection |
 | `/new-session` | Alias of `/newram` |
 
-## Publish this folder to GitHub (you run locally)
+## Publish to GitHub
 
-**Do not paste personal access tokens into chat or commit them.** Use one of:
+This checkout is already a **git** repo on branch `main`. Prefer **`gh auth login`** (browser/device flow) once on your machine — no token in chat or in the repo.
 
-- **GitHub CLI**: `gh auth login`  
-- **SSH remote**: `git@github.com:YOUR_USER/YOUR_REPO.git`  
-- **HTTPS + credential helper** (token stored by the OS, not in the repo)
-
-From this directory:
+**Option A — interactive (recommended)**
 
 ```bash
 cd /path/to/pi-loop-recovery-extensions
-git init
-git add README.md loop-detector.ts session-utils.ts .gitignore
-git commit -m "Add Pi loop recovery extensions and documentation"
-git branch -M main
+gh auth login
+./scripts/gh-push.sh
+```
+
+**Option B — PAT from a local file (run only in your own Terminal; revoke the token after)**
+
+```bash
+cd /path/to/pi-loop-recovery-extensions
+export GH_TOKEN="$(cat /path/to/token.txt)"
+./scripts/gh-push.sh
+```
+
+The script creates `YOUR_LOGIN/pi-loop-recovery-extensions` (or the name you pass) as a **public** repo and pushes `main`.
+
+**Option C — manual remote**
+
+```bash
 git remote add origin git@github.com:YOUR_USER/pi-loop-recovery-extensions.git
 git push -u origin main
 ```
-
-Create an empty repository on GitHub first (no README) if you want a clean first push.
 
 ## Safety & scope
 
